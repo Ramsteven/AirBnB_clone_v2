@@ -115,49 +115,45 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, args):
+
+def do_create(self, args):
         """ Create an object of any class"""
-        if not args:
+        lt0 = args.split(" ")  # ---Creating a list with all the arguments---
+        lt1 = []  # ---Empty list for add only valid arguments---
+        for i in range(1, len(lt0)):
+            if "=" in lt0[i]:
+                lt1.append(lt0[i])
+        str1 = "=".join(lt1)
+        lt2 = str1.split("=")
+        it = iter(lt2[:])
+        dct1 = dict(zip(it, it))  # ---dictionary with all items---
+        dct2 = {}  # ---empty dictionary for add only valid items---
+        for key, value in dct1.items():
+            if value != value.strip('"'):
+                stripvalue = value.strip('"')
+                newvalue = stripvalue.replace("_", " ")
+                dct2[key] = newvalue
+            else:
+                if "." in value:
+                    newvalue = float(value)
+                    dct2[key] = newvalue
+                else:
+                    try:
+                        newvalue = int(value)
+                        dct2[key] = newvalue
+                    except:
+                        pass
+        if not lt0[0]:
             print("** class name missing **")
             return
-        argv = args.split()
-        if argv[0] not in HBNBCommand.classes:
+        elif lt0[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
+            # print(type(dct1['name']))
             return
-        new_instance = HBNBCommand.classes[argv[0]]()
-
-        if argv[1]:
-            for param in argv[1:]:
-                parameter = param.split('=')
-                if len(parameter) != 2:
-                    continue
-                value = parameter[1]
-
-                float_check = 0
-                if not value.isnumeric():
-                    try:
-                        float(value)
-                        float_check = True
-                    except ValueError:
-                        float_check = False
-
-                if (value.isnumeric() or value.startswith("-") and
-                   (value[1:].isnumeric() or float_check) or float_check):
-                    if '.' in value:
-                        value_result = float(value)
-                    else:
-                        value_result = int(value)
-                else:
-                    if '_' in value:
-                        value = value.replace('_', ' ')
-                    # value_result = value[1:-1].replace('"', '\\"')
-                    value_result = shlex.split(value)[0]
-
-                setattr(new_instance, parameter[0], value_result)
-
-            storage.new(new_instance)
-            storage.save()
-            print(new_instance.id)
+        new_instance = HBNBCommand.classes[lt0[0]](**dct2)
+        storage.new(new_instance)
+        print(new_instance.id)
+        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
