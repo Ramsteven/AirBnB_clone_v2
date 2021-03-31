@@ -141,6 +141,6 @@ Usage: <class_name>.update(<_id>, <dictionary>)
 ```
 <br>
 
-## Authors: <br>
+## Authors: <br><br>
 David Ramirez<br>
 Julian Mendez
