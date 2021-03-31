@@ -4,6 +4,7 @@ import unittest
 from models.base_model import BaseModel
 from models import storage
 import os
+import pep8
 
 
 class test_fileStorage(unittest.TestCase):
@@ -77,6 +78,15 @@ class test_fileStorage(unittest.TestCase):
     def test_type_objects(self):
         """ Confirm __objects is a dict """
         self.assertEqual(type(storage.all()), dict)
+
+    def test_Pep8(self):
+        """
+        test_pep8
+        test for pep8
+        """
+        pep8val = pep8.StyleGuide(quiet=True)
+        pep8checks = pep8val.check_files(["models/engine/file_storage.py"])
+        self.assertEqual(pep8checks.total_errors, 0, "pep8 fail")
 
 
 def test_storage_var_created(self):
