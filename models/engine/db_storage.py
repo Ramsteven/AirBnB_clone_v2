@@ -4,12 +4,12 @@ from sqlalchemy import create_engine
 from models.state import Base
 from sqlalchemy.orm import Session, sessionmaker, scoped_session
 from os import getenv
-from models.user import User
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.place import Place
-from models.review import Review
+from ..user import User
+from ..state import State
+from ..city import City
+from ..amenity import Amenity
+from ..place import Place
+from ..review import Review
 
 
 class DBStorage:
