@@ -116,7 +116,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
 
-def do_create(self, args):
+    def do_create(self, args):
         """ Create an object of any class"""
         lt0 = args.split(" ")  # ---Creating a list with all the arguments---
         lt1 = []  # ---Empty list for add only valid arguments---
