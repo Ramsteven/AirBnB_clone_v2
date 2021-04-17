@@ -1,36 +1,36 @@
 #!/usr/bin/python3
-"""send archive to our server
-		with do_deploy: """
+""" send  archive to our web servers,
+using do_deploy: """
 
 from fabric.api import *
 from os import path
 
-env.hosts = ['34.73.211.85', '18.234.133.209']
+env.hosts = ['35.237.158.254', '35.243.174.193']
 
 
 def do_deploy(archive_path):
-    """Deploy servers"""
+    """deploy   servers"""
     if path.exists(archive_path) is False:
         return False
 
-    ufile_ = put(archive_path, '/tmp/')
-    if ufile_.failed:
+    ufile = put(archive_path, '/tmp/')
+    if ufile.failed:
         return False
 
     complete = archive_path.split("/")[-1]
-    file_ = complete.split(".")[0]
+    s_file = complete.split(".")[0]
 
-    run("sudo mkdir -p /data/web_static/releases/{}/".format(file_))
+    run("sudo mkdir -p /data/web_static/releases/{}/".format(s_file))
     run("sudo tar -xzf /tmp/{}.tgz -C /data/web_static/releases/{}/".
-        format(file_, fileok))
+        format(s_file, fileok))
 
-    run("sudo rm /tmp/{}.tgz".format(file_))
+    run("sudo rm /tmp/{}.tgz".format(s_file))
 
     run("sudo mv /data/web_static/releases/{}/web_static/* "
-        "/data/web_static/releases/{}/".format(file_, fileok))
+        "/data/web_static/releases/{}/".format(s_file, fileok))
     run("sudo rm -rf /data/web_static/releases/{}/web_static".
-        format(file_))
+        format(s_file))
     run("sudo rm -rf /data/web_static/current")
     run("sudo ln -s /data/web_static/releases/{}/ /data/web_static/current".
-        format(file_))
+        format(s_file))
     return True
